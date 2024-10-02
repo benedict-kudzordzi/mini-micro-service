@@ -1,0 +1,6 @@
+- Connect to kafka
+    - Add topics
+    -
+- Write a serielizer
+- Write a deserielizer
+- 
