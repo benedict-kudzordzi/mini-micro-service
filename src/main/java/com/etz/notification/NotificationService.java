@@ -4,25 +4,17 @@ import java.util.Random;
 
 import org.json.JSONObject;
 
-import com.etz.kafka.Consumer;
+import com.etz.entity.User;
 
-import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Path("/notification")
-@Produces(MediaType.APPLICATION_JSON)
+
+@ApplicationScoped
 public class NotificationService {
     private static final Random rand = new Random();
 
-    @Inject
-    Consumer consumer;
-
-    @GET
-    public Response getRandomResponse(String input) {
+    
+    public String getRandomResponse(User user) {
         JSONObject response = new JSONObject();
 
         int randomValue = rand.nextInt(3);
@@ -35,7 +27,7 @@ public class NotificationService {
             case 1:
                 responseMessage = "failed";
                 break;
-            case 2:
+            case 2: 
                 responseMessage = "pending";
                 break;
             default:
@@ -46,12 +38,10 @@ public class NotificationService {
 
         String errorCode = "0"+randomValue;
 
-        response.put("status", errorCode);
-        response.put("message", responseMessage);
+        response.put("error", errorCode);
+        response.put("userId", user.getId());
+        response.put("status", responseMessage);
 
-        // consume kafka message and return random response back to the kafka broker
-        consumer.process(responseMessage);
-
-        return Response.status(Response.Status.OK).entity(response.toString()).build();
+        return response.toString();
     }
 }

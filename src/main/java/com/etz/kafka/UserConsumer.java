@@ -6,17 +6,18 @@ import org.eclipse.microprofile.reactive.messaging.Incoming;
 
 import org.jboss.logging.Logger;
 
+import com.etz.entity.User;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
-public class Consumer {
-    private static final Logger log = Logger.getLogger(Consumer.class);
+public class UserConsumer {
+    private static final Logger log = Logger.getLogger(UserConsumer.class);
 
     @Inject
-    @Channel("my-producer")
-    Emitter<String> emitter;
+    @Channel("status-out")
+    Emitter<User> emitter;
 
     // @Incoming("my-queue")
     // public void consume(User user) {
@@ -24,10 +25,15 @@ public class Consumer {
     // }
 
     @Incoming("my-queue")
-    public String process(String message){
+    public String process(User message){
         log.info("Incoming message "+message);
         emitter.send(message);
 
-        return message;
+        return "Message Sent !!";
     }
+
+    // @Incoming("status-in")
+    // public void processStatus(String messsage){
+    //     log.info("Status Message "+messsage);
+    // }
 }

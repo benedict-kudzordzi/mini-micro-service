@@ -25,6 +25,9 @@ public class User{
     @Column(length = 5)
     private String status;
 
+    @Column
+    private String notificationStatus;
+
     public String getFullName() {
         return fullName;
     }
@@ -65,6 +68,22 @@ public class User{
         this.status = status;
     }
 
+    public String getNotificationStatus() {
+        return notificationStatus;
+    }
+
+    public void setNotificationStatus(String notificationStatus) {
+        this.notificationStatus = notificationStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber
+                + ", status=" + status + ", notificationStatus=" + notificationStatus + "]";
+    }
+
+    
+    
     
     
 }
